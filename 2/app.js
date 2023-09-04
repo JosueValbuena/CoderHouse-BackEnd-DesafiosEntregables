@@ -5,7 +5,7 @@ class ProductManager {
         this.products = [];
     }
 
-    addProduct(title, description, price, thumbnail, stock) {
+    addProduct = (title, description, price, thumbnail, stock) => {
 
         const id = this.products.length + 1;
 
@@ -35,8 +35,9 @@ class ProductManager {
 
     updateProductById(id, title, description, price, thumbnail, stock) {
         const allProductos = JSON.parse(fs.readFileSync("products.txt", "utf-8"));
-        const updateProductById = allProductos.map(ele => ele.id === id ? 
-            {id, title, description, price, thumbnail, stock} : ele);
+        const updateProductById = allProductos.map(ele => ele.id === id ?
+            { id, title, description, price, thumbnail, stock } : ele);
+        fs.writeFileSync("products.txt", JSON.stringify(updateProductById));
         return updateProductById;
     }
 
@@ -65,4 +66,4 @@ product1.addProduct("titulo5", "descripcion5", 5000, "imagen5", 50);
 
 //console.log(product1.deleteProduct(3));
 
-//console.log(product1.updateProductById(5, "titulo10", "descripcion10", 10000, "imagen10", 100));
+// console.log(product1.updateProductById(5, "titulo10", "descripcion10", 10000, "imagen10", 100));
