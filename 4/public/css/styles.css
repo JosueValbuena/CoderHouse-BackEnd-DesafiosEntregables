@@ -1,0 +1,58 @@
+.container {
+    background-color: gray;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.form__add,
+.form__delete {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 10rem;
+    padding: 1rem 0;
+}
+
+.form__input__container {
+    display: flex;
+    width: 20rem;
+    justify-content: space-between;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+}
+
+.list__render {
+    display: flex;
+    flex-direction: column;
+}
+
+.table tr * {
+    padding: 0.5rem 2rem;
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .table tr * {
+        padding: 0;
+    }
+
+    .form__add,
+    .form__delete {
+        display: flex;
+        flex-direction: column;
+        width: 10rem;
+        padding: 1rem 0;
+    }
+
+    .form__input__container {
+        flex-direction: column;
+        width: 10rem;
+    }
+}
