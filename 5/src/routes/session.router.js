@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import userModel from "../models/users.models.js";
 const sessionRouter = express.Router();
 
@@ -29,7 +29,7 @@ sessionRouter.get('/login', async (req, res) => {
     if (!req.session.autorized) {
         res.render('login.hbs')
     } else {
-        console.log(req.session.user)
+        let user = req.session.user
         res.render('profile.hbs', {user})
     };
 });
@@ -37,17 +37,34 @@ sessionRouter.get('/login', async (req, res) => {
 sessionRouter.post('/login', async (req, res) => {
     const { email, password } = req.body;
     const verifyUser = await userModel.findOne({ email: email });
-    if (!verifyUser) {
-        return res.send('Este usuario no existe')
+    if (verifyUser === null) {
+         console.log('usuario no existe')
+        return res.render('index.hbs')
     } else if (email === verifyUser.email && password === verifyUser.password) {
         console.log('Usuario logueado correctamente')
-        req.session.user = { name: verifyUser.first_name, email: verifyUser.email };
+        req.session.user = { name: verifyUser.first_name, email: verifyUser.email};
         req.session.autorized = true;
-        res.redirect('/api/sessions/profile')
+        let user = req.session.user;
+        if(user.email === 'adminCoder@coder.com'){
+            user.rol = 'admin'
+        } else{
+            user.rol = 'user'
+        };
+        res.render('profile.hbs', {user})
     }
 });
 
 sessionRouter.get('/profile', async (req, res) => {
+    if(!req.session.autorized){
+        res.render('index.hbs')
+    }else{
+        let user = req.session.user;
+        res.render('profile.hbs', {user})
+    }
+})
+
+sessionRouter.get('/logout', async (req, res) => {
+    req.session.destroy();
     res.render('index.hbs')
 })
 
