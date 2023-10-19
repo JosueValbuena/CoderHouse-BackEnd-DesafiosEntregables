@@ -27,15 +27,23 @@ app.get('/realtimeproducts', (req, res) => {
 
 server.listen(port, () => console.log(`Server listening on port ${port}`))
 
+let products;
+
 io.on('connection', (socket) => {
     console.log('Servidor de productos iniciado')
+
     io.emit('userConnected', "Aplicacion cargada");
+    io.emit('ProductsDB', (products));
 
     socket.on('productAdded', (data)=>{
+        products = data.products;
+        console.log(products)
         io.emit('addProduct', (data));
     })
 
     socket.on('productDeleted', (data)=>{
+        products = data.products;
+        console.log(products)
         io.emit('deleteProduct', (data));
     })
 });

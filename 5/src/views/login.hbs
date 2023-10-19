@@ -1,0 +1,42 @@
+<h1>Ingresa tus credenciales</h1>
+<form id="login">
+
+    <fieldset>
+        <legend> Datos de usuario </legend>
+
+        <label for="email">Correo</label>
+        <input type="text" id="email">
+
+        <label for="password">Contrasenha</label>
+        <input type="text" id="password">
+        <button type="submit">Enviar</button>
+    </fieldset>
+</form>
+
+
+<script>
+    const loginForm = document.querySelector('#login');
+    const email = document.querySelector('#email');
+    const password = document.querySelector('#password');
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+        const data = { email: email.value, password: password.value };
+
+        const response = await fetch('http://localhost:8080/api/sessions/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        if (response.ok) {
+            window.location.href = '/api/sessions/profile';
+        } else {
+            console.error('La solicitud POST no se completó correctamente.');
+        }
+    }
+
+    loginForm.addEventListener('submit', handleSubmit);
+</script>

@@ -1,0 +1,59 @@
+<h1>Ingresa tus datos</h1>
+<form id="register">
+    <fieldset>
+        <legend>Datos nuevo usuario</legend>
+
+        <label for="first_name">Nombre</label>
+        <input type="text" id="first_name">
+
+        <label for="last_name">Apellido</label>
+        <input type="text" id="last_name">
+
+        <label for="email">Email</label>
+        <input type="text" id="email">
+
+        <label for="age">Edad</label>
+        <input type="number" id="age">
+
+        <label for="password">Contrasenha</label>
+        <input type="text" id="password">
+
+        <button type="submit">Enviar</button>
+    </fieldset>
+</form>
+
+<script>
+    const registerForm = document.querySelector('#register');
+    const firstName = document.querySelector('#first_name');
+    const lastName = document.querySelector('#last_name');
+    const email = document.querySelector('#email');
+    const age = document.querySelector('#age');
+    const password = document.querySelector('#password');
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+        const data = {
+            firstName: firstName.value,
+            lastName: lastName.value,
+            email: email.value,
+            age: age.value,
+            password: password.value
+        }
+
+        const response = await fetch('http://localhost:8080/api/sessions/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        if(response.ok){
+            window.location.href = '/api/sessions/profile';
+        } else{
+            console.error('La solicitud POST no se completo correctamente.')
+        }
+    }
+
+    registerForm.addEventListener('submit', handleSubmit);
+</script>

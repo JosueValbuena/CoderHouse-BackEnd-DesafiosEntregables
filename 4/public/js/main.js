@@ -2,7 +2,7 @@ const socket = io();
 
 const listRender = document.querySelector('#list__render');
 
-const products = [];
+let products = [];
 
 document.querySelector("#form__add").addEventListener('submit', (e) => {
     e.preventDefault();
@@ -75,5 +75,9 @@ socket.on('deleteProduct', (data) => {
 })
 
 socket.on('userConnected', (message) => {
-    console.log(message)
+    console.log(message);
+})
+
+socket.on('ProductsDB', (data) => {
+    products = data;
 })
