@@ -24,6 +24,7 @@ productsRouter.post('/', async (req, res) => {
             validateProducts(products, i);
             await productsDatabase.saveItem(products);
         };
+
         res.send('productos agregados correctamente');
     } catch (error) {
         res.status(500).json({ message: errorTypes.INTENARL_SERVER_ERROR, error: error.message });
