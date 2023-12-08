@@ -1,14 +1,17 @@
 const { Router } = require("express");
 const createProducts = require("../utils/products.js");
-const ProductsDatabase = require("../database/products.js");
 const errorTypes = require("../errors/index.errors.js");
+const { productsDatabase } = require("../database/index.js");
 
 const productsRouter = Router();
-const productsDatabase = new ProductsDatabase();
 
 productsRouter.get('/', async (req, res) => {
-    const product = await productsDatabase.getAllItems();
-    res.send({ message: `Hay ${product.length} productos en la base de datos`, payload: product });
+    try {
+        const product = await productsDatabase.getAllItems();
+        res.status(200).send({ message: `Hay ${product.length} productos en la base de datos`, payload: product });
+    } catch (error) {
+        res.status(500).send({message: errorTypes.INTENARL_SERVER_ERROR, error: error.message});
+    }
 })
 
 productsRouter.post('/', async (req, res) => {
@@ -25,7 +28,7 @@ productsRouter.post('/', async (req, res) => {
             await productsDatabase.saveItem(products);
         };
 
-        res.send('productos agregados correctamente');
+        res.status(201).send('productos agregados correctamente');
     } catch (error) {
         res.status(500).json({ message: errorTypes.INTENARL_SERVER_ERROR, error: error.message });
     }

@@ -9,7 +9,7 @@ class ProductsDatabase {
 
     getItemId(id) {
         const item = this.database.find(ele => ele.id === id);
-        if(!item) {
+        if (!item) {
             throw new Error(`item con id ${id} no encontrado`)
         }
         return item;
